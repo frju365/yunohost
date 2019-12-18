@@ -417,7 +417,7 @@ def _build_dns_conf(domain, ttl=3600):
             {"type": "MX", "name": "@", "value": "10 domain.tld.", "ttl": 3600},
             {"type": "TXT", "name": "@", "value": "\"v=spf1 a mx ip4:123.123.123.123 ipv6:valid-ipv6 -all\"", "ttl": 3600 },
             {"type": "TXT", "name": "mail._domainkey", "value": "\"v=DKIM1; k=rsa; p=some-super-long-key\"", "ttl": 3600},
-            {"type": "TXT", "name": "_dmarc", "value": "\"v=DMARC1; p=none\"", "ttl": 3600}
+            {"type": "TXT", "name": "_dmarc", "value": "\"v=DMARC1; p=quarantine; adkim=s\"", "ttl": 3600}
         ],
         "extra": [
             {"type": "CAA", "name": "@", "value": "128 issue \"letsencrypt.org\"", "ttl": 3600},
@@ -475,7 +475,7 @@ def _build_dns_conf(domain, ttl=3600):
     if dkim_host:
         mail += [
             [dkim_host, ttl, "TXT", dkim_publickey],
-            ["_dmarc", ttl, "TXT", '"v=DMARC1; p=none"'],
+            ["_dmarc", ttl, "TXT", '"v=DMARC1; p=quarantine; adkim=s"'],
         ]
 
     # Extra
